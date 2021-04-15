@@ -19,7 +19,7 @@
                 <constraints unique="true" uniqueConstraintName="user_login_key"/>
             </column>
             <column name="first_name" type="varchar(50)" remarks="Имя Пользователя"/>
-            <column name="lastname_name" type="varchar(50)" remarks="Фамилия пользователя"/>
+            <column name="last_name" type="varchar(50)" remarks="Фамилия пользователя"/>
             <column name="middle_name" type="varchar(50)" remarks="Отчество Пользователя"/>
         </createTable>
 
@@ -54,11 +54,14 @@
 
         <preConditions>
             <not>
-                <tableExists tableName="user_task"/>
+                <tableExists tableName="task_member"/>
             </not>
         </preConditions>
 
-        <createTable tableName="user_task" remarks="Отношения пользователь-задача">
+        <createTable tableName="task_member" remarks="Отношения пользователь-задача">
+            <column name="id" type="UUID" remarks="Уникальный идентификатор записи">
+                <constraints primaryKey="true" primaryKeyName="task_member_id_pkey"/>
+            </column>
             <column name="task" type="UUID" remarks="Ссылка на задчу">
                 <constraints nullable="false"/>
             </column>
@@ -70,15 +73,15 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="user_task"
+        <addForeignKeyConstraint baseTableName="task_member"
                                  baseColumnNames="task"
-                                 constraintName="user_task_task_fkey"
+                                 constraintName="task_member_task_fkey"
                                  referencedTableName="task"
                                  referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
 
-        <addForeignKeyConstraint baseTableName="user_task"
+        <addForeignKeyConstraint baseTableName="task_member"
                                  baseColumnNames="user"
-                                 constraintName="user_task_user_fkey"
+                                 constraintName="task_member_user_fkey"
                                  referencedTableName="user"
                                  referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
 
@@ -102,7 +105,7 @@
             <column name="user" type="UUID" remarks="Ссылка на пользователя">
                 <constraints nullable="false"/>
             </column>
-            <column name="comment_text" type="text" remarks="Текст комментария">
+            <column name="comment" type="text" remarks="Текст комментария">
                 <constraints nullable="false"/>
             </column>
         </createTable>
