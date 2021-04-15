@@ -1,0 +1,124 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="2021041401_01" author="kpimenov" dbms="postgresql">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user" remarks="Пользователь">
+            <column name="id" type="UUID" remarks="Уникальный идентификатор записи">
+                <constraints primaryKey="true" primaryKeyName="user_id_pkey"/>
+            </column>
+            <column name="email" type="varchar(255)" remarks="Логин пользователя">
+                <constraints unique="true" uniqueConstraintName="user_login_key"/>
+            </column>
+            <column name="first_name" type="varchar(50)" remarks="Имя Пользователя"/>
+            <column name="lastname_name" type="varchar(50)" remarks="Фамилия пользователя"/>
+            <column name="middle_name" type="varchar(50)" remarks="Отчество Пользователя"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2021041401_02" author="kpimenov" dbms="postgresql">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="task"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="task" remarks="Задача">
+            <column name="id" type="UUID" remarks="Уникальный идентификатор записи">
+                <constraints primaryKey="true" primaryKeyName="task_id_pkey"/>
+            </column>
+            <column name="master" type="UUID" remarks="Главная задача"/>
+            <column name="theme" type="varchar(255)" remarks="Тема задания"/>
+            <column name="description" type="text" remarks="Описание задачи"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="task"
+                                 baseColumnNames="master"
+                                 constraintName="task_master_fkey"
+                                 referencedTableName="task"
+                                 referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+    </changeSet>
+
+    <changeSet id="2021041401_03" author="kpimenov" dbms="postgresql">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="user_task"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_task" remarks="Отношения пользователь-задача">
+            <column name="task" type="UUID" remarks="Ссылка на задчу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user" type="UUID" remarks="Ссылка на пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(50)" remarks="Роль пользователя в задаче">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_task"
+                                 baseColumnNames="task"
+                                 constraintName="user_task_task_fkey"
+                                 referencedTableName="task"
+                                 referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <addForeignKeyConstraint baseTableName="user_task"
+                                 baseColumnNames="user"
+                                 constraintName="user_task_user_fkey"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+    </changeSet>
+
+    <changeSet id="2021041401_04" author="kpimenov" dbms="postgresql">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="comment"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="comment" remarks="Комментарий к задаче">
+            <column name="id" type="UUID" remarks="Уникальный идентификатор записи">
+                <constraints primaryKey="true" primaryKeyName="comment_id_pkey"/>
+            </column>
+            <column name="task" type="UUID" remarks="Ссылка на задачу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user" type="UUID" remarks="Ссылка на пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment_text" type="text" remarks="Текст комментария">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="comment"
+                                 baseColumnNames="task"
+                                 constraintName="comment_task_fkey"
+                                 referencedTableName="task"
+                                 referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <addForeignKeyConstraint baseTableName="comment"
+                                 baseColumnNames="user"
+                                 constraintName="comment_user_fkey"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+    </changeSet>
+
+</databaseChangeLog>
