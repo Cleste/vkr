@@ -16,7 +16,10 @@
                 <constraints primaryKey="true" primaryKeyName="user_id_pkey"/>
             </column>
             <column name="email" type="varchar(255)" remarks="Логин пользователя">
-                <constraints unique="true" uniqueConstraintName="user_login_key"/>
+                <constraints unique="true" uniqueConstraintName="user_login_key" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)" remarks="Пароль пользователя">
+                <constraints nullable="false"/>
             </column>
             <column name="first_name" type="varchar(50)" remarks="Имя Пользователя"/>
             <column name="last_name" type="varchar(50)" remarks="Фамилия пользователя"/>

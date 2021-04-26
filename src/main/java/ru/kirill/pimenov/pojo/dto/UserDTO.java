@@ -20,6 +20,11 @@ public class UserDTO {
     private String email;
 
     /**
+     * Пароль
+     */
+    private String password;
+
+    /**
      * Имя
      */
     private String firstName;

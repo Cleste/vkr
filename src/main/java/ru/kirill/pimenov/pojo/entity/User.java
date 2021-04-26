@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User extends IdentifiableEntity {
 
     /**
@@ -25,6 +25,12 @@ public class User extends IdentifiableEntity {
      */
     @Column(name = "email")
     private String email;
+
+    /**
+     * Пароль
+     */
+    @Column(name = "password")
+    private String password;
 
     /**
      * Имя
