@@ -1,4 +1,4 @@
-package ru.kirill.pimenov.entity;
+package ru.kirill.pimenov.pojo.entity;
 
 /**
  * Роль пользователя в задаче

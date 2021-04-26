@@ -1,4 +1,4 @@
-package ru.kirill.pimenov.entity;
+package ru.kirill.pimenov.pojo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

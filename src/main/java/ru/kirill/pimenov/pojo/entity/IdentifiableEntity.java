@@ -1,4 +1,4 @@
-package ru.kirill.pimenov.entity;
+package ru.kirill.pimenov.pojo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public abstract class IdentifiableEntity {
 
     /**
-     * Идетификатор сущности
+     * Идентификатор сущности
      */
     @Id
     @GeneratedValue(generator = "UUID")

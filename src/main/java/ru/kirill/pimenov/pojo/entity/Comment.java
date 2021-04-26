@@ -1,4 +1,4 @@
-package ru.kirill.pimenov.entity;
+package ru.kirill.pimenov.pojo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +10,8 @@ import javax.persistence.Table;
 @Table(name = "comment")
 public class Comment extends IdentifiableEntity {
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "comment")
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "\"user\"")
