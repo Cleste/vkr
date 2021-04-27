@@ -7,10 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class UserDetailsBO implements UserDetails {
+
+    private UUID id;
 
     private String password;
 
