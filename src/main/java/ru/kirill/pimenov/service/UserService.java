@@ -9,6 +9,9 @@ import ru.kirill.pimenov.pojo.dto.UserDTO;
 import ru.kirill.pimenov.pojo.entity.User;
 import ru.kirill.pimenov.repository.UserRepository;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -17,11 +20,31 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserBO register (UserDTO userDTO) {
+    private final MailSenderService mailSenderService;
+
+    public UserBO register(UserDTO userDTO) {
         User newUser = UserMapper.INSTANCE.fromUserDTO(userDTO);
 
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setActive(false);
+        newUser.setActivationCode(UUID.randomUUID());
+
+        mailSenderService.sendActivationMail(newUser);
 
         return UserMapper.INSTANCE.toUserBO(userRepository.save(newUser));
+    }
+
+    public User getById(UUID id) {
+        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public boolean activateUser(UUID code) {
+        User user = userRepository.findByActivationCode(code);
+        if (user == null) {
+            return false;
+        }
+        user.setActive(true);
+        user.setActivationCode(null);
+        return true;
     }
 }

@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Пользователь
@@ -50,6 +51,18 @@ public class User extends IdentifiableEntity {
      */
     @Column(name = "middle_name")
     private String middleName;
+
+    /**
+     * Признак активности пользователя
+     */
+    @Column(name = "active")
+    private boolean active;
+
+    /**
+     * Код активации пользователя
+     */
+    @Column(name = "activation_code")
+    private UUID activationCode;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<TaskMember> tasksMembership = new ArrayList<>();

@@ -19,6 +19,8 @@ public class UserDetailsBO implements UserDetails {
 
     private String username;
 
+    private boolean active;
+
     private final UserRoleBO userRoleBO = UserRoleBO.USER;
 
     @Override
@@ -43,6 +45,6 @@ public class UserDetailsBO implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }

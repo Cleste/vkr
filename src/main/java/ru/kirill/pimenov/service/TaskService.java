@@ -10,10 +10,11 @@ import ru.kirill.pimenov.pojo.entity.Task;
 import ru.kirill.pimenov.pojo.entity.TaskMember;
 import ru.kirill.pimenov.pojo.entity.TaskRole;
 import ru.kirill.pimenov.pojo.entity.User;
+import ru.kirill.pimenov.repository.TaskMemberRepository;
 import ru.kirill.pimenov.repository.TaskRepository;
-import ru.kirill.pimenov.repository.UserRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,20 +22,23 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    private final UserRepository userRepository;
+    private final TaskMemberRepository taskMemberRepository;
 
-    public List<TaskBO> getTasks (UserDetailsBO user) {
-        List<Task> taskList = taskRepository.findAllByUserId(user.getId());
+    private final UserService userService;
+
+    public List<TaskBO> get(UUID userId) {
+        List<Task> taskList = taskRepository.findAllByUserId(userId);
 
         return TaskMapper.INSTANCE.toTaskBO(taskList);
     }
 
     public List<TaskBO> add(UserDetailsBO userDetailsBO, TaskDTO taskDTO) {
-        User user = userRepository.findById(userDetailsBO.getId()).get();
+        User user = userService.getById(userDetailsBO.getId());
         Task task = TaskMapper.INSTANCE.fromTaskDTO(taskDTO);
-        TaskMember taskMember = new TaskMember(TaskRole.AUTHOR, user, task);
-        task.getTaskMembers().add(taskMember);
-        taskRepository.save(task);
-        return getTasks(userDetailsBO);
+        Task savedTask = taskRepository.save(task);
+        TaskMember taskMember = new TaskMember(TaskRole.AUTHOR, user, savedTask);
+        taskMemberRepository.save(taskMember);
+        return get(userDetailsBO.getId());
     }
+
 }

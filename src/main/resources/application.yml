@@ -14,3 +14,10 @@ spring:
     jdbc:
       initialize-schema: always
       table-name: SPRING_SESSION
+  mail:
+    protocol: smtps
+    host: smtp.gmail.com
+    port: 465
+    username: tasker.vkr@gmail.com
+    password: .E7e2/L7-cN?(}/u
+    debug: true

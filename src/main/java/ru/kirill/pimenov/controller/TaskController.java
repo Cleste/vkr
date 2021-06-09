@@ -22,7 +22,7 @@ public class TaskController {
     @GetMapping("/")
     public String get(Model model,
                       @AuthenticationPrincipal UserDetailsBO user) {
-        List<TaskBO> tasks = taskService.getTasks(user);
+        List<TaskBO> tasks = taskService.get(user.getId());
         model.addAttribute("tasks", tasks);
         return "tasks";
     }
