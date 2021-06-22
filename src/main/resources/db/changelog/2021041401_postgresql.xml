@@ -5,7 +5,7 @@
 
     <changeSet id="2021041401_01" author="kpimenov" dbms="postgresql">
 
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="user"/>
             </not>
@@ -30,7 +30,7 @@
 
     <changeSet id="2021041401_02" author="kpimenov" dbms="postgresql">
 
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="task"/>
             </not>
@@ -43,6 +43,8 @@
             <column name="master" type="UUID" remarks="Главная задача"/>
             <column name="theme" type="varchar(255)" remarks="Тема задания"/>
             <column name="description" type="text" remarks="Описание задачи"/>
+            <column name="activation_code" type="UUID" remarks="Код активации"/>
+            <column name="active" type="boolean" remarks="Признак активированности пользователя"/>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="task"
@@ -55,7 +57,7 @@
 
     <changeSet id="2021041401_03" author="kpimenov" dbms="postgresql">
 
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="task_member"/>
             </not>
@@ -92,7 +94,7 @@
 
     <changeSet id="2021041401_04" author="kpimenov" dbms="postgresql">
 
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="comment"/>
             </not>
@@ -125,6 +127,34 @@
                                  referencedTableName="user"
                                  referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
 
+    </changeSet>
+
+
+    <changeSet id="2021041401_05" author="kpimenov" dbms="postgresql">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="invite"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="invite" remarks="Приглашение на задачи">
+            <column name="id" type="UUID" remarks="Уникальный идентификатор записи">
+                <constraints primaryKey="true" primaryKeyName="invite_id_pkey"/>
+            </column>
+            <column name="task" type="UUID" remarks="Ссылка на задачу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)" remarks="Ссылка на пользователя">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="invite"
+                                 baseColumnNames="task"
+                                 constraintName="invite_task_fkey"
+                                 referencedTableName="task"
+                                 referencedColumnNames="id" onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -12,12 +12,15 @@
         <ul class="navbar-nav mr-auto">
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Главная</a>
+                    <a class="nav-link" href="/task/invites">Приглашения</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/task">Задачи</a>
                 </li>
             </#if>
         </ul>
         <#if name != "quest">
-            <a class="nav-link mr-3" href="/user/profile">${name}</a>
+            <a class="nav-link mr-3" href="/user/profile/${user.id}">${name}</a>
         </#if>
         <@l.logout/>
     </div>

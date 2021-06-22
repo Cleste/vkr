@@ -2,12 +2,12 @@
 
 <@c.page>
     <a class="btn btn-primary" data-toggle="collapse"
-       href="#collapseExample" role="button" aria-expanded="false"
+       href="#collapseAddTask" role="button" aria-expanded="false"
        aria-controls="collapseExample">Создать задачу
     </a>
-    <div class="collapse show" id="collapseExample">
+    <div class="collapse" id="collapseAddTask">
         <div class="form-group mt-3">
-            <form action="/" method="post">
+            <form action="/task" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')}"
                            value="<#if taskDTO??>${taskDTO.theme}</#if>" name="theme" placeholder="Тема"/>
@@ -37,8 +37,9 @@
         <#list tasks as task>
             <div class="card my-3" data-id="${task.id}">
                 <div class="m-2">
-                    <span>${task.theme}</span><br/>
-                    <i>${task.text}</i>
+                    <a href="/task/${task.id}"><strong>${task.theme}</strong></a><br/>
+                    <i>${task.text}</i><br/>
+                    <strong>${task.author.email}</strong>
                 </div>
             </div>
         <#else>

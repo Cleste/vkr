@@ -36,9 +36,14 @@ public class Task extends IdentifiableEntity {
     @JoinColumn(name = "master")
     private Task master;
 
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "master", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Task> subTasks = new ArrayList<>();
+
     @Column(name = "description")
     private String text;
 
     @Column(name = "theme")
     private String theme;
+
 }

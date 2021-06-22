@@ -53,7 +53,7 @@
             <div class="col-sm-6">
                 <input type="password" name="password"
                        class="form-control ${(passwordError??)?string('is-invalid', '')}"
-                       placeholder="Password"/>
+                       placeholder="Пароль"/>
                 <#if passwordError??>
                     <div class="invalid-feedback">
                         ${passwordError}

@@ -6,7 +6,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import ru.kirill.pimenov.pojo.bo.UserDetailsBO;
 import ru.kirill.pimenov.pojo.entity.User;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +35,22 @@ public class MailSenderService {
         String username = !StringUtils.isEmpty(user.getFirstName()) ? user.getEmail() : user.getFirstName();
         String message = String.format(
                 "Уважаемый, %s! \n" +
-                        "Добро поаловать на Таскер. " +
+                        "Добро пожаловать на Таскер. " +
                         "Перейдите по ссылке чтобы ативировать свой аккаунт - localhost:8080/activate/%s",
                 username,
                 user.getActivationCode()
         );
         send(user.getEmail(), "Активация аккаунта на tasker.ru", message);
+    }
+
+    public void sendInvite(UUID taskId, String email, User user) {
+        String username = !StringUtils.isEmpty(user.getFirstName()) ? user.getEmail() : user.getFirstName();
+        String message = String.format(
+                "Пользователь %s пригласил вас на сайт tasker.ru. \n" +
+                        "Чтобы увидеть задачу и принять приглашение перейдите по сслыке - localhost:8080/task/invite?inviteId=%s. ",
+                username,
+                taskId
+        );
+        send(email, "Пришлашение на веб-сайте tasker.ru", message);
     }
 }

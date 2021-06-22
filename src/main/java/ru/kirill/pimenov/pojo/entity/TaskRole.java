@@ -5,6 +5,6 @@ package ru.kirill.pimenov.pojo.entity;
  */
 public enum TaskRole {
 
-    AUTHOR
+    AUTHOR, MEMBER
 
 }
